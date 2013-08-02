@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" xmlns:bean="urn:switchyard-component-bean:config:1.0" xmlns:quartz="urn:switchyard-component-camel-quartz:config:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="bean-cron-simple" targetNamespace="urn:org.apodhrad.switchyard.example:bean-cron-simple:1.0">
+  <sca:composite name="bean-cron-simple" targetNamespace="urn:org.apodhrad.switchyard.example:bean-cron-simple:1.0">
+    <sca:component name="CronBean">
+      <bean:implementation.bean class="org.apodhrad.switchyard.example.bean_cron_simple.CronBean"/>
+      <sca:service name="Cron">
+        <sca:interface.java interface="org.apodhrad.switchyard.example.bean_cron_simple.Cron"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="Cron" promote="CronBean/Cron">
+      <sca:interface.java interface="org.apodhrad.switchyard.example.bean_cron_simple.Cron"/>
+      <quartz:binding.quartz>
+        <operationSelector operationName="execute"/>
+        <quartz:contextMapper/>
+        <quartz:name>bean-cron-simple</quartz:name>
+        <quartz:cron>0/5 * * * * ?</quartz:cron>
+      </quartz:binding.quartz>
+    </sca:service>
+  </sca:composite>
+</switchyard>
