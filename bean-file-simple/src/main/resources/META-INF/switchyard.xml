@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" xmlns:bean="urn:switchyard-component-bean:config:1.0" xmlns:file="urn:switchyard-component-camel-file:config:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="bean-file-simple" targetNamespace="urn:org.apodhrad.switchyard.example:bean-file-simple:1.0">
+  <sca:composite name="bean-file-simple" targetNamespace="urn:org.apodhrad.switchyard.example:bean-file-simple:1.0">
+    <sca:component name="InfoBean">
+      <bean:implementation.bean class="org.apodhrad.switchyard.example.bean_file_simple.InfoBean"/>
+      <sca:service name="Info">
+        <sca:interface.java interface="org.apodhrad.switchyard.example.bean_file_simple.Info"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="Info" promote="InfoBean/Info">
+      <sca:interface.java interface="org.apodhrad.switchyard.example.bean_file_simple.Info"/>
+      <file:binding.file>
+        <operationSelector operationName="printInfo"/>
+        <file:contextMapper/>
+        <file:directory>/home/apodhrad/Temp/dir</file:directory>
+        <file:consume>
+          <file:initialDelay>1000</file:initialDelay>
+          <file:noop>false</file:noop>
+          <file:move>processed</file:move>
+        </file:consume>
+      </file:binding.file>
+    </sca:service>
+  </sca:composite>
+</switchyard>
