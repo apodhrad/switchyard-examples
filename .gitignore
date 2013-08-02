@@ -9,6 +9,7 @@
 .classpath
 .project
 .settings
+.metadata
 
 # Maven Target #
 target
