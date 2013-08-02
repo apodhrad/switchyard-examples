@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" xmlns:bean="urn:switchyard-component-bean:config:1.0" xmlns:resteasy="urn:switchyard-component-resteasy:config:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="bean-rest-simple" targetNamespace="urn:org.apodhrad.switchyard.example:bean-rest-simple:1.0">
+  <sca:composite name="bean-rest-simple" targetNamespace="urn:org.apodhrad.switchyard.example:bean-rest-simple:1.0">
+    <sca:component name="ByeBean">
+      <bean:implementation.bean class="org.apodhrad.switchyard.example.bean_rest_simple.ByeBean"/>
+      <sca:service name="Bye">
+        <sca:interface.java interface="org.apodhrad.switchyard.example.bean_rest_simple.Bye"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="Bye" promote="ByeBean/Bye">
+      <sca:interface.java interface="org.apodhrad.switchyard.example.bean_rest_simple.Bye"/>
+      <resteasy:binding.rest>
+        <resteasy:contextMapper/>
+        <resteasy:interfaces>org.apodhrad.switchyard.example.bean_rest_simple.Bye</resteasy:interfaces>
+        <resteasy:contextPath>test</resteasy:contextPath>
+      </resteasy:binding.rest>
+    </sca:service>
+  </sca:composite>
+</switchyard>
