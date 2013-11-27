@@ -1,0 +1,11 @@
+package com.example.switchyard.drools_example
+
+global java.util.Map globals
+
+rule "MyRules"
+    when
+        $a: String()
+    then
+        System.out.println("service: Foo, $a: " + $a);
+        globals.put("Result", "Hello " + $a);
+end

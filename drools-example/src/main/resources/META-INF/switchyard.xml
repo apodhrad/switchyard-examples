@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" xmlns:bpm="urn:switchyard-component-bpm:config:1.0" xmlns:http="urn:switchyard-component-http:config:1.0" xmlns:rules="urn:switchyard-component-rules:config:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="drools-example" targetNamespace="urn:com.example.switchyard:drools-example:1.0">
+  <sca:composite name="drools-example" targetNamespace="urn:com.example.switchyard:drools-example:1.0">
+    <sca:component name="Interview">
+      <rules:implementation.rules>
+        <rules:manifest>
+          <rules:resources>
+            <rules:resource location="Interview.drl" type="DRL"/>
+          </rules:resources>
+        </rules:manifest>
+        <rules:operations>
+          <rules:operation name="verify" type="EXECUTE">
+            <rules:inputs>
+              <rules:input from="message.content"/>
+            </rules:inputs>
+            <rules:outputs>
+              <rules:output from="globals.Result" to="message.content"/>
+            </rules:outputs>
+          </rules:operation>
+        </rules:operations>
+      </rules:implementation.rules>
+      <sca:service name="Interview">
+        <sca:interface.java interface="com.example.switchyard.drools_example.Interview"/>
+      </sca:service>
+    </sca:component>
+    <sca:component name="MyRules">
+      <rules:implementation.rules>
+        <rules:manifest>
+          <rules:resources>
+            <rules:resource location="MyRules.drl" type="DRL"/>
+          </rules:resources>
+        </rules:manifest>
+        <rules:operations>
+          <rules:operation name="foo" type="EXECUTE">
+            <rules:globals/>
+            <rules:inputs/>
+            <rules:outputs/>
+          </rules:operation>
+        </rules:operations>
+      </rules:implementation.rules>
+      <sca:service name="Foo">
+        <sca:interface.java interface="com.example.switchyard.drools_example.Foo"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="Foo" promote="MyRules/Foo">
+      <sca:interface.java interface="com.example.switchyard.drools_example.Foo"/>
+      <http:binding.http name="http1">
+        <http:contextPath>hello</http:contextPath>
+      </http:binding.http>
+    </sca:service>
+  </sca:composite>
+</switchyard>
