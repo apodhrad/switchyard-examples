@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" xmlns:bean="urn:switchyard-component-bean:config:1.0" xmlns:bpm="urn:switchyard-component-bpm:config:1.0" xmlns:http="urn:switchyard-component-http:config:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="bpmn-example" targetNamespace="urn:com.example.switchyard:bpmn-example:1.0">
+  <sca:composite name="bpmn-example" targetNamespace="urn:com.example.switchyard:bpmn-example:1.0">
+    <sca:component name="MyProcess">
+      <bpm:implementation.bpm persistent="false" processId="Hello">
+        <bpm:manifest>
+          <bpm:resources>
+            <bpm:resource location="MyProcess.bpmn" type="BPMN2"/>
+          </bpm:resources>
+        </bpm:manifest>
+        <bpm:operations>
+          <bpm:operation name="start" type="START_PROCESS">
+            <bpm:inputs>
+              <bpm:input from="message.content" to="Parameter"/>
+            </bpm:inputs>
+            <bpm:outputs>
+              <bpm:output from="Result" to="message.content"/>
+            </bpm:outputs>
+          </bpm:operation>
+          <bpm:operation eventId="Signal_1" name="signal" type="SIGNAL_EVENT">
+            <bpm:inputs>
+              <bpm:input from="message.content" to="Parameter"/>
+            </bpm:inputs>
+            <bpm:outputs>
+              <bpm:output from="Result" to="message.content"/>
+            </bpm:outputs>
+          </bpm:operation>
+        </bpm:operations>
+      </bpm:implementation.bpm>
+      <sca:service name="MyService">
+        <sca:interface.java interface="com.example.switchyard.bpmn_example.MyService"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="MyService" promote="MyProcess/MyService">
+      <sca:interface.java interface="com.example.switchyard.bpmn_example.MyService"/>
+      <http:binding.http name="http1">
+        <operationSelector operationName="start"/>
+        <http:contextPath>start</http:contextPath>
+      </http:binding.http>
+      <http:binding.http name="http2">
+        <operationSelector operationName="signal"/>
+        <http:contextPath>signal</http:contextPath>
+      </http:binding.http>
+    </sca:service>
+  </sca:composite>
+</switchyard>
