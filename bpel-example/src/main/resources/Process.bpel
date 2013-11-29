@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpel:process exitOnStandardFault="yes" name="Process"
+    targetNamespace="urn:com.example.switchyard:bpel-example:1.0"
+    xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns="urn:com.example.switchyard:bpel-example:1.0">
+    <bpel:import importType="http://schemas.xmlsoap.org/wsdl/"
+        location="Hello.wsdl" namespace="urn:com.example.switchyard:bpel-example:1.0"/>
+    <bpel:import importType="http://schemas.xmlsoap.org/wsdl/"
+        location="ProcessPartners.wsdl" namespace="urn:com.example.switchyard:bpel-example:1.0"/>
+    <bpel:partnerLinks>
+        <bpel:partnerLink myRole="ProcessRole" name="Process" partnerLinkType="ns:ProcessPLT"/>
+    </bpel:partnerLinks>
+    <bpel:variables>
+        <bpel:variable name="sayHelloRequest" messageType="ns:sayHello"/>
+        <bpel:variable name="sayHelloResponse" messageType="ns:sayHelloResponse">
+        </bpel:variable>
+    </bpel:variables>
+    <bpel:sequence name="MainSequence">
+        <bpel:pick createInstance="yes" name="SwitchInvokedOperation">
+            <bpel:onMessage operation="sayHello" partnerLink="Process"
+                portType="ns:HelloPortType" variable="sayHelloRequest">
+                <bpel:sequence>
+                    
+                    <bpel:assign validate="no" name="Assign">
+                        <bpel:copy>
+                            <bpel:from><bpel:literal><tns:sayHelloResponse xmlns:tns="urn:com.example.switchyard:bpel-example:1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <tns:string>tns:string</tns:string>
+</tns:sayHelloResponse>
+</bpel:literal></bpel:from>
+                            <bpel:to variable="sayHelloResponse" part="parameters"></bpel:to>
+                        </bpel:copy>
+                        <bpel:copy>
+                            <bpel:from part="parameters" variable="sayHelloRequest">
+                                <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns:string]]></bpel:query>
+                            </bpel:from>
+                            <bpel:to part="parameters" variable="sayHelloResponse">
+                                <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns:string]]></bpel:query>
+                            </bpel:to>
+                        </bpel:copy>
+                    </bpel:assign>
+                    <bpel:reply name="ReplyToSayHello" operation="sayHello" partnerLink="Process" portType="ns:HelloPortType" variable="sayHelloResponse" />
+                    
+                </bpel:sequence>
+            </bpel:onMessage>
+        </bpel:pick>
+    </bpel:sequence>
+</bpel:process>

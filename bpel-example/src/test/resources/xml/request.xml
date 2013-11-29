@@ -1,0 +1,3 @@
+<sayHello xmlns="urn:com.example.switchyard:bpel-example:1.0">
+	<string>aaaa</string>
+</sayHello>

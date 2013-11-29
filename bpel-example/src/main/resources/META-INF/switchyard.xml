@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" xmlns:hello="urn:com.example.switchyard:bpel-example:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:soap="urn:switchyard-component-soap:config:1.0" name="bpel-example" targetNamespace="urn:com.example.switchyard:bpel-example:1.0">
+  <sca:composite name="bpel-example" targetNamespace="urn:com.example.switchyard:bpel-example:1.0">
+    <sca:component name="Hello">
+      <sca:implementation.bpel process="hello:Hello"/>
+      <sca:service name="Hello">
+        <sca:interface.wsdl interface="Hello.wsdl#wsdl.porttype(HelloPortType)"/>
+      </sca:service>
+    </sca:component>
+    <sca:component name="Process">
+      <sca:implementation.bpel process="hello:Process"/>
+      <sca:service name="Process">
+        <sca:interface.wsdl interface="Hello.wsdl#wsdl.porttype(HelloPortType)"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="ProcessService" promote="Process/Process">
+      <sca:interface.wsdl interface="Hello.wsdl#wsdl.porttype(HelloPortType)"/>
+      <soap:binding.soap name="soap1">
+        <soap:wsdl>Hello.wsdl</soap:wsdl>
+        <soap:contextPath>process</soap:contextPath>
+      </soap:binding.soap>
+    </sca:service>
+  </sca:composite>
+</switchyard>
