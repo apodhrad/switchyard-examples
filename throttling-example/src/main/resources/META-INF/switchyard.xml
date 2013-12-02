@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" xmlns:bean="urn:switchyard-component-bean:config:1.0" xmlns:http="urn:switchyard-component-http:config:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="throttling-example" targetNamespace="urn:com.example.switchyard:throttling-example:1.0">
+  <sca:composite name="throttling-example" targetNamespace="urn:com.example.switchyard:throttling-example:1.0">
+    <sca:component name="SayHelloBean">
+      <bean:implementation.bean class="com.example.switchyard.throttling_example.SayHelloBean"/>
+      <sca:service name="SayHello">
+        <sca:interface.java interface="com.example.switchyard.throttling_example.SayHello"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="SayHelloService" promote="SayHelloBean/SayHello">
+      <sca:interface.java interface="com.example.switchyard.throttling_example.SayHello"/>
+      <http:binding.http name="http1">
+        <operationSelector operationName="sayHello"/>
+        <http:contextPath>hello</http:contextPath>
+      </http:binding.http>
+      <sca:extensions>
+        <throttling maxRequests="1" timePeriod="10000"/>
+      </sca:extensions>
+    </sca:service>
+    <sca:component name="SayHiBean">
+      <bean:implementation.bean class="com.example.switchyard.throttling_example.SayHiBean"/>
+      <sca:service name="SayHi">
+        <sca:interface.java interface="com.example.switchyard.throttling_example.SayHi"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="SayHiService" promote="SayHiBean/SayHi">
+      <sca:interface.java interface="com.example.switchyard.throttling_example.SayHi"/>
+    </sca:service>
+  </sca:composite>
+</switchyard>
