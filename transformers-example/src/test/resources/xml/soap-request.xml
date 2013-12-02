@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Header/>
+  <soap:Body>
+    <ns2:person xmlns:ns2="urn:com.example.switchyard:transformers-example:1.0">
+      <name>Andrej</name>
+      <age>28</age>
+    </ns2:person>
+  </soap:Body>
+</soap:Envelope>

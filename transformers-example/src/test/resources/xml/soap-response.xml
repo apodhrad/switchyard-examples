@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body>
+        <ns2:result xmlns:ns2="urn:com.example.switchyard:transformers-example:1.0">
+            <greeting>Hello Andrej!</greeting>
+        </ns2:result>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
