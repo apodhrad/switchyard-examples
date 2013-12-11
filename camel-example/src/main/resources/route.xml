@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<routes xmlns="http://camel.apache.org/schema/spring">
+    <route>
+        <from uri="switchyard://Hello"/>
+        <log message="Hello - message received: ${body}"/>
+        <setBody>
+            <simple>Hello ${body}</simple>
+        </setBody>
+    </route>
+</routes>
