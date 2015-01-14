@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sy:switchyard xmlns:camel="urn:switchyard-component-camel:config:2.0" xmlns:http="urn:switchyard-component-http:config:2.0" xmlns:resteasy="urn:switchyard-component-resteasy:config:2.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sy="urn:switchyard-config:switchyard:2.0" xmlns:validate="urn:switchyard-config:validate:2.0" name="dtd-validation" targetNamespace="urn:com.example.switchyard:switchyard-example:1.0">
+  <sca:composite name="dtd-validation" targetNamespace="urn:com.example.switchyard:switchyard-example:1.0">
+    <sca:component name="CamelServiceRoute">
+      <camel:implementation.camel>
+        <camel:java class="com.example.switchyard.switchyard_example.CamelServiceRoute"/>
+      </camel:implementation.camel>
+      <sca:service name="PrintService">
+        <sca:interface.java interface="com.example.switchyard.switchyard_example.PrintService"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="PrintService" promote="CamelServiceRoute/PrintService">
+      <sca:interface.java interface="com.example.switchyard.switchyard_example.PrintService"/>
+      <http:binding.http name="http1">
+        <sy:operationSelector operationName="print"/>
+        <http:contextPath>print</http:contextPath>
+      </http:binding.http>
+    </sca:service>
+  </sca:composite>
+  <sy:validates>
+    <validate:validate.xml name="java:java.lang.String" schemaType="DTD">
+      <validate:schemaFiles>
+        <validate:entry file="person.dtd"/>
+      </validate:schemaFiles>
+    </validate:validate.xml>
+  </sy:validates>
+</sy:switchyard>

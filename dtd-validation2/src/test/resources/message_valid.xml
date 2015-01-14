@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE person SYSTEM "person.dtd">
+<person>
+	<name>Andrej</name>
+	<surname>Podhradsky</surname>
+</person>
