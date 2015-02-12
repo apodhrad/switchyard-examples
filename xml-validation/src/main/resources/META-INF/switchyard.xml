@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sy:switchyard xmlns:camel="urn:switchyard-component-camel:config:2.0" xmlns:http="urn:switchyard-component-http:config:2.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sy="urn:switchyard-config:switchyard:2.0" xmlns:validate="urn:switchyard-config:validate:2.0" name="xml-validation" targetNamespace="urn:com.example.switchyard:xml-validation:1.0">
+  <sca:composite name="xml-validation" targetNamespace="urn:com.example.switchyard:xml-validation:1.0">
+    <sca:component name="Route">
+      <camel:implementation.camel>
+        <camel:xml path="route.xml"/>
+      </camel:implementation.camel>
+      <sca:service name="ESBService">
+        <sy:interface.esb inputType="person" outputType="java:java.lang.String"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="Hello" promote="Route/ESBService">
+      <sca:interface.java interface="com.example.switchyard.xml_validation.Hello"/>
+      <http:binding.http name="http1">
+        <sy:operationSelector operationName="sayHello"/>
+        <http:contextPath>hello</http:contextPath>
+      </http:binding.http>
+    </sca:service>
+  </sca:composite>
+  <sy:validates>
+    <validate:validate.xml name="person" schemaType="DTD">
+      <validate:schemaFiles>
+        <validate:entry file="person.dtd"/>
+      </validate:schemaFiles>
+    </validate:validate.xml>
+  </sy:validates>
+</sy:switchyard>

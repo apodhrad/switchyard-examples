@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ASCII"?>
+<routes xmlns="http://camel.apache.org/schema/spring">
+  <route>
+    <from uri="switchyard://ESBService"/>
+    <log message="ESBService - message received: ${body}"/>
+    <setBody>
+      <xpath>/person/name/text()</xpath>
+    </setBody>
+    <convertBodyTo type="java.lang.String"/>
+    <setBody>
+      <simple>Hello ${body}</simple>
+    </setBody>
+  </route>
+</routes>
